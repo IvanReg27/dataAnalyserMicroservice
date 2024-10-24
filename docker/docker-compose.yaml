@@ -18,7 +18,7 @@ volumes:
 
 services:
   generator:
-    image: 'ivanmakhorin/data-generator-microservice:latest'
+    image: 'ilyalisov/data-generator-microservice:latest'
     networks:
       - app
     depends_on:
@@ -30,7 +30,7 @@ services:
       - '8081:8081'
 
   analyser:
-    image: 'ivanmakhorin/data-analyser-microservice:latest'
+    image: 'ilyalisov/data-analyser-microservice:latest'
     networks:
       - app
     depends_on:
@@ -47,7 +47,7 @@ services:
       - '8082:8082'
 
   store:
-    image: 'ivanmakhorin/data-store-microservice:latest'
+    image: 'ilyalisov/data-store-microservice:latest'
     networks:
       - app
     depends_on:
