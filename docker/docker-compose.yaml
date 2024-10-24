@@ -17,7 +17,6 @@ volumes:
     driver: local
 
 services:
-
   generator:
     image: 'ivanmakhorin/data-generator-microservice:latest'
     networks:
@@ -79,6 +78,8 @@ services:
     image: 'confluentinc/cp-kafka:latest'
     networks:
       - app
+    depends_on:
+      - zookeeper
     environment:
       - KAFKA_BROKER_ID=${KAFKA_BROKER_ID}
       - KAFKA_ZOOKEEPER_CONNECT=${KAFKA_ZOOKEEPER_CONNECT}
@@ -118,7 +119,7 @@ services:
       - redis-data:/data
 
   debezium:
-    image: debezium/connect:3.0.0.Final
+    image: debezium/connect:2.4.0.Final
     networks:
       - app
     depends_on:
@@ -129,6 +130,11 @@ services:
       - CONFIG_STORAGE_TOPIC=my_connect_configs
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
+    user: root
+    #    command:
+    #      - bash
+    #      - -c
+    #      - "cd /on-startup; ls; ./run.sh"
     volumes:
       - debezium-data:/debezium/data
       - ./conf/:/on-startup/
